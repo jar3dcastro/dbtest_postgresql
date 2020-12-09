@@ -1,0 +1,24 @@
+{
+  "server":{
+    "environment": "LOCAL"
+  },
+  "verticle": {
+    "api": {
+      "instances": 1,
+      "v1": {
+        "port": 8006
+      }
+    },
+    "entity": {
+      "instances": 1
+    }
+  },
+  "database": {
+    "host" : "35.230.39.8",
+    "port" : 5432,
+    "maxPoolSize" : 10,
+    "username" : "user-dev",
+    "password" : "dh@5N&cYD5f%3hVULb#",
+    "database" : "policy_db"
+  }
+}

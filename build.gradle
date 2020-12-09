@@ -1,0 +1,75 @@
+plugins {
+    id 'java'
+    id 'application'
+    id "io.vertx.vertx-plugin" version "1.1.0"
+    id "groovy"
+}
+
+group 'pe.interseguro'
+version '1.0.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+    jcenter()
+}
+
+vertx {
+    mainVerticle = 'pe.interseguro.dbtest.verticle.MainVerticle'
+    jvmArgs = ["-Xmx512m",
+               "-Dvertx.options.blockedThreadCheckInterval=60000",
+               "-Dvertx.logger-delegate-factory-class-name=io.vertx.core.logging.SLF4JLogDelegateFactory"]
+    config = "config/application.json"
+}
+
+compileJava {
+    targetCompatibility = 1.8
+    sourceCompatibility = 1.8
+}
+
+ext {
+    vertxVersion = '3.9.1'
+    mssqlJdbcVersion = '8.0.4.jre8'
+    junitJupiterEngineVersion = '5.6.2'
+    logbackClassicVersion = '1.2.3'
+    snakeyamlVersion = '1.26'
+    cronUtilsVersion = '9.0.2'
+    spockCoreVersion = '1.3-groovy-2.5'
+    cglibNodepVersion = '3.3.0'
+    objenesisVersion = '3.1'
+    guiceVersion = '4.2.3'
+}
+
+dependencies {
+    compile "io.vertx:vertx-web:$vertxVersion"
+    compile "io.vertx:vertx-web-client:$vertxVersion"
+    compile "io.vertx:vertx-service-proxy:$vertxVersion"
+    compile "io.vertx:vertx-config:$vertxVersion"
+    compile "io.vertx:vertx-web-api-contract:$vertxVersion"
+
+    compile "io.vertx:vertx-pg-client:$vertxVersion"
+
+    compile "io.vertx:vertx-codegen:$vertxVersion"
+    compile "ch.qos.logback:logback-classic:$logbackClassicVersion"
+    compile "org.yaml:snakeyaml:$snakeyamlVersion"
+    compile "com.cronutils:cron-utils:$cronUtilsVersion"
+    compile "com.google.inject:guice:$guiceVersion"
+
+    annotationProcessor "io.vertx:vertx-codegen:$vertxVersion:processor"
+    annotationProcessor "io.vertx:vertx-service-proxy:$vertxVersion:processor"
+
+    testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:$junitJupiterEngineVersion"
+    testRuntimeOnly "org.junit.vintage:junit-vintage-engine:$junitJupiterEngineVersion"
+
+    testCompile "org.spockframework:spock-core:$spockCoreVersion"
+    testImplementation "org.junit.jupiter:junit-jupiter-api:$junitJupiterEngineVersion"
+    testImplementation("org.spockframework:spock-core") {
+        exclude group: "org.codehaus.groovy", module: "groovy-all"
+    }
+    testCompile "cglib:cglib-nodep:$cglibNodepVersion"
+    testCompile "org.objenesis:objenesis:$objenesisVersion"
+
+}
+
+shadowJar {
+    archiveFileName = "${baseName}-${version}-deploy.${extension}"
+}

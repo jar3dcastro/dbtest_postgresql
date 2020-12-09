@@ -1,0 +1,11 @@
+entity:
+  insert: |
+    insert into tmp_entity_1 (int_field, float_field, string_field, datetime_field)
+    values ($1, $2, $3, $4)
+  update: |
+    update tmp_entity_1 set int_field = $1, float_field = $2, string_field = $3, datetime_field = $4
+    where id = $5
+  findAll: |
+    select * from tmp_entity_1
+  findById: |
+    select * from tmp_entity_1 where id = $1

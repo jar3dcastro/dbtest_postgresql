@@ -1,0 +1,58 @@
+openapi: 3.0.1
+info:
+  title: Interseguro - Prueba de base de datos
+  version: 1.0.0
+servers:
+  - url: 'http://localhost:8006'
+paths:
+  /api/v1/entity/save:
+    post:
+      operationId: saveEntity
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        200:
+          description: Datos guardados
+          content:
+            application/json:
+              schema:
+                type: object
+        401:
+          $ref: '#/components/responses/UnauthorizedError'
+  /api/v1/entity/findAll:
+    get:
+      operationId: findAllEntities
+      responses:
+        200:
+          description: Datos guardados
+          content:
+            application/json:
+              schema:
+                type: object
+        401:
+          $ref: '#/components/responses/UnauthorizedError'
+  /api/v1/entity/findById/{id}:
+    parameters:
+      - name: id
+        in: path
+        schema:
+          type: string
+    get:
+      operationId: findEntityById
+      responses:
+        200:
+          description: Datos guardados
+          content:
+            application/json:
+              schema:
+                type: object
+        401:
+          $ref: '#/components/responses/UnauthorizedError'
+
+components:
+  responses:
+    UnauthorizedError:
+      description: El token de acceso no existe o es invalido
